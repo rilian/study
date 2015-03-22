@@ -1,12 +1,14 @@
 h1 Study
 
-h2 Articles
+form action="/records" method="POST"
+  textarea name="records"
+  select name="type"
+    - Record::TYPES.each do |type|
+      option value="#{type}" #{type.capitalize}
+  input type="submit"
 
-h2 Tutorials
-
-h2 Video
-
-h2 Books
-
-h2 Other
-
+- Record::TYPES.each do |type|
+  h2 #{type.capitalize}s
+  - instance_variable_get("@#{type}s".to_sym).each do |r|
+    p
+      a href="#{r.url}" #{r.url}
