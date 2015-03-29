@@ -1,14 +1,30 @@
-h1 Study
+doctype html
+html
+  head
+    title Study
+  body
+    h1 Study
 
-form action="/records" method="POST"
-  textarea name="records"
-  select name="type"
+    form action="/records" method="POST"
+      textarea name="records"
+      select name="type"
+        - Record::TYPES.each do |type|
+          option value="#{type}" #{type.capitalize}
+      input type="submit"
+
     - Record::TYPES.each do |type|
-      option value="#{type}" #{type.capitalize}
-  input type="submit"
+      h2 #{type.capitalize}s
+      - instance_variable_get("@#{type}s".to_sym).each do |r|
+        - if !r.seen || (r.seen && r.updated_at > Time.now - 1.day)
+          p
+            - if r.seen
+              input type="checkbox" name="records[#{r.id}][seen]" checked="checked" data-record-id="#{r.id}"
+            - else
+              input type="checkbox" name="records[#{r.id}][seen]" data-record-id="#{r.id}"
 
-- Record::TYPES.each do |type|
-  h2 #{type.capitalize}s
-  - instance_variable_get("@#{type}s".to_sym).each do |r|
-    p
-      a href="#{r.url}" #{r.url}
+            a href="#{r.url}" target="_blank" #{r.url}
+            - if r.note != ''
+              sub #{" #{r.note}"}
+
+    script src="//code.jquery.com/jquery-2.1.3.min.js"
+    script src="index.js"
