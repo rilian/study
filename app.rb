@@ -11,7 +11,7 @@ end
 
 get '/' do
   Record::TYPES.each do |type|
-    instance_variable_set("@#{type}s".to_sym, Record.where(type: type).order(created_at: :desc).to_a)
+    instance_variable_set("@#{type}s".to_sym, Record.where(type: type).order(created_at: :asc).to_a)
   end
 
   render(:slim, :index)

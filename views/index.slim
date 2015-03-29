@@ -1,16 +1,19 @@
 doctype html
-html
+html lang="en"
   head
-    title Study
+    title Reading List
   body
-    h1 Study
+    h1 Reading List
+    p Links marked as seen will disappear from the list in 24 hours.
+    p New Links are added to the end of the list.
 
     form action="/records" method="POST"
-      textarea name="records"
+      textarea name="records" rows="2" cols="80"
+      br
       select name="type"
         - Record::TYPES.each do |type|
           option value="#{type}" #{type.capitalize}
-      input type="submit"
+      input type="submit" value="Add Links"
 
     - Record::TYPES.each do |type|
       h2 #{type.capitalize}s
