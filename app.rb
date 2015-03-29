@@ -6,7 +6,7 @@ require_relative 'config.rb'
 
 class Record < ActiveRecord::Base
   self.inheritance_column = nil
-  TYPES = %w[article tutorial video book other course conference]
+  TYPES = %w[article tutorial video book other course doc conference]
 end
 
 get '/' do
@@ -18,7 +18,7 @@ get '/' do
 end
 
 post '/records' do
-  records = params[:records].split(/\n+/).reject { |r| r.to_s.strip == '' }
+  records = params[:records].split(/\n+/).map(&:strip).reject { |r| r == '' }.reverse
   records.each do |r|
     record = Record.new(url: r, type: params[:type], note: params[:note].to_s.strip)
     if !record.save
