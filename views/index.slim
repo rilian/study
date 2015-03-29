@@ -8,11 +8,17 @@ html lang="en"
     p New Links are added to the end of the list.
 
     form action="/records" method="POST"
-      textarea name="records" rows="2" cols="80"
+      label for="records" Links
+      textarea id="records" name="records" rows="2" cols="80"
       br
-      select name="type"
+      label for="type" Type
+      select id="type" name="type"
         - Record::TYPES.each do |type|
           option value="#{type}" #{type.capitalize}
+      br
+      label for="note" Note
+      input id="note" name="note"
+      br
       input type="submit" value="Add Links"
 
     - Record::TYPES.each do |type|

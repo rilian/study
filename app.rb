@@ -18,8 +18,9 @@ get '/' do
 end
 
 post '/records' do
-  params[:records].split(/\s+/).each do |r|
-    record = Record.new(url: r, type: params[:type])
+  records = params[:records].split(/\n+/).reject { |r| r.to_s.strip == '' }
+  records.each do |r|
+    record = Record.new(url: r, type: params[:type], note: params[:note].to_s.strip)
     if !record.save
       halt 422, record.errors.full_messages.inspect
     end
