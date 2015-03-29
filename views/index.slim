@@ -16,7 +16,7 @@ html lang="en"
       input type="submit" value="Add Links"
 
     - Record::TYPES.each do |type|
-      h2 #{type.capitalize}s
+      h2 #{type.capitalize}s (#{instance_variable_get("@#{type}s".to_sym).count})
       - instance_variable_get("@#{type}s".to_sym).each do |r|
         - if !r.seen || (r.seen && r.updated_at > Time.now - 1.day)
           p
@@ -25,7 +25,11 @@ html lang="en"
             - else
               input type="checkbox" name="records[#{r.id}][seen]" data-record-id="#{r.id}"
 
-            a href="#{r.url}" target="_blank" #{r.url}
+            - if r.url.index('http') == 0
+              a href="#{r.url}" target="_blank" #{r.url}
+            - else
+              span #{r.url}
+
             - if r.note != ''
               sub #{" #{r.note}"}
 

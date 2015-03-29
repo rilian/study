@@ -6,7 +6,7 @@ require_relative 'config.rb'
 
 class Record < ActiveRecord::Base
   self.inheritance_column = nil
-  TYPES = %w[article tutorial video book other]
+  TYPES = %w[article tutorial video book other course conference]
 end
 
 get '/' do
@@ -19,7 +19,6 @@ end
 
 post '/records' do
   params[:records].split(/\s+/).each do |r|
-    r = "http://#{r}" unless r.index('http') == 0
     record = Record.new(url: r, type: params[:type])
     if !record.save
       halt 422, record.errors.full_messages.inspect
