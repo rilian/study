@@ -4,12 +4,16 @@ html lang="en"
     title Reading List
   body
     h1 Reading List
+    - Record::TYPES.each do |type|
+      a href="#type-#{type}" #{type.capitalize}s
+      span &nbsp;
+
     p Links marked as seen will disappear from the list in 24 hours.
     p New Links are added to the end of the list.
 
     form action="/records" method="POST"
       label for="records" Links
-      textarea id="records" name="records" rows="2" cols="80"
+      textarea id="records" name="records" rows="3" cols="80"
       br
       label for="type" Type
       select id="type" name="type"
@@ -22,6 +26,7 @@ html lang="en"
       input type="submit" value="Add Links"
 
     - Record::TYPES.each do |type|
+      a id="type-#{type}"
       h2 #{type.capitalize}s (#{instance_variable_get("@#{type}s".to_sym).count})
       - instance_variable_get("@#{type}s".to_sym).each do |r|
         - if !r.seen || (r.seen && r.updated_at > Time.now - 1.day)
