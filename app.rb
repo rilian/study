@@ -7,11 +7,14 @@ require_relative 'config.rb'
 class Record < ActiveRecord::Base
   self.inheritance_column = nil
   TYPES = %w[article tutorial video book other course doc conference]
+
+  scope :active, ->() { where("seen != 't' OR seen = 'f' AND updated_at::date > ?", Time.now.strftime('%Y-%b-%d')) }
 end
 
 get '/' do
   Record::TYPES.each do |type|
-    instance_variable_set("@#{type}s".to_sym, Record.where(type: type).order(created_at: :asc).to_a)
+    records = Record.active.where(type: type).order(created_at: :asc).to_a
+    instance_variable_set "@#{type}s".to_sym, records
   end
 
   render(:slim, :index)
