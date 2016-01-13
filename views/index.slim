@@ -6,7 +6,7 @@ html lang="en"
   body
     h1 Reading List
     - Record::TYPES.each do |type|
-      a href="#type-#{type}" #{type.capitalize}s
+      a href="#type-#{type}" #{type.capitalize}s (#{instance_variable_get("@#{type}s".to_sym).count})
       span &nbsp;
 
     p Links marked as seen will disappear from the list in 24 hours.
