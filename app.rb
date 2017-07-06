@@ -8,7 +8,7 @@ class Record < ActiveRecord::Base
   self.inheritance_column = nil
   TYPES = %w[article tutorial video book other course doc conference]
 
-  scope :active, ->() { where("seen != 't' OR (seen = 't' AND updated_at >= ?)", Time.now - 1.day) }
+  scope :active, ->() { where("seen != 't' OR (seen = 't' AND updated_at >= ?)", Time.now - 2.hours) }
 end
 
 get '/' do

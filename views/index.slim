@@ -9,7 +9,7 @@ html lang="en"
       a href="#type-#{type}" #{type.capitalize}s (#{instance_variable_get("@#{type}s".to_sym).count})
       span &nbsp;
 
-    p Links marked as seen will disappear from the list in 24 hours.
+    p Links marked as seen will disappear from the list in 2 hours.
     p New Links are added to the end of the list.
 
     form action="/records" method="POST"
@@ -30,7 +30,7 @@ html lang="en"
       a id="type-#{type}"
       h2 #{type.capitalize}s (#{instance_variable_get("@#{type}s".to_sym).count})
       - instance_variable_get("@#{type}s".to_sym).each do |r|
-        - if !r.seen || (r.seen && r.updated_at > Time.now - 1.day)
+        - if !r.seen || (r.seen && r.updated_at > Time.now - 2.hours)
           p
             - if r.seen
               input type="checkbox" name="records[#{r.id}][seen]" checked="checked" data-record-id="#{r.id}"
